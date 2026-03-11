@@ -3,227 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LoveMarket | Премиальный бутик ощущений</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <title>love.me | Магазин ощущений</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --accent: #8b0000; /* Глубокий бордовый LoveMarket */
-            --gold: #c5a059;
-            --bg: #0a0a0a;
-            --text: #ffffff;
-            --glass: rgba(255, 255, 255, 0.03);
+            --primary: #8b2cf5; /* Цвет из вашего скриншота */
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #1a1a1a;
+            --text-light: #6c757d;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background: var(--bg); 
-            color: var(--text); 
-            font-family: 'Montserrat', sans-serif; 
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--bg); color: var(--text); overflow-x: hidden; }
 
-        /* --- ЭФФЕКТ ЖИДКОГО ФОНА --- */
-        .bg-glow {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, #2c0005 0%, #0a0a0a 100%);
-            z-index: -1;
-        }
-
-        /* --- НАВИГАЦИЯ --- */
-        nav {
-            position: fixed;
-            top: 0; width: 100%;
-            padding: 25px 5%;
+        /* --- HEADER --- */
+        header {
+            background: #fff;
+            padding: 15px 5%;
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: center;
+            position: sticky;
+            top: 0;
             z-index: 1000;
-            background: linear-gradient(to bottom, rgba(10,10,10,0.8), transparent);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
         }
-        .logo { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--gold); text-decoration: none; }
-        .nav-links a { color: white; text-decoration: none; margin-left: 30px; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.7; }
-        .nav-links a:hover { opacity: 1; color: var(--gold); }
+        .logo-block { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .logo-heart { width: 35px; height: 35px; border: 3px solid var(--primary); border-radius: 50% 50% 50% 0; transform: rotate(-45deg); }
+        .logo-text { font-size: 24px; font-weight: 700; letter-spacing: -1px; }
 
-        /* --- ГЛАВНЫЙ ЭКРАН (HERO) --- */
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            perspective: 1000px;
+        .search-bar { flex: 1; max-width: 500px; margin: 0 30px; position: relative; }
+        .search-bar input {
+            width: 100%; padding: 12px 20px; border-radius: 10px;
+            border: 1px solid #eee; background: #f1f3f5; outline: none;
         }
-        .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(3rem, 10vw, 7rem);
-            line-height: 1;
-            margin-bottom: 20px;
-            background: linear-gradient(45deg, #fff, var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: reveal 1.5s ease-out;
-        }
-        @keyframes reveal { from { opacity: 0; transform: translateY(50px) rotateX(-20deg); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- СЕКЦИЯ КАТЕГОРИЙ (ПЕРЕХОДЫ) --- */
-        .categories {
-            padding: 100px 5%;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+        .nav-tools { display: flex; gap: 20px; align-items: center; }
+        .btn-catalog { 
+            background: var(--primary); color: white; padding: 10px 25px; 
+            border-radius: 8px; border: none; cursor: pointer; font-weight: 600;
+            display: flex; align-items: center; gap: 8px;
         }
-        .cat-card {
-            height: 400px;
-            background: var(--glass);
-            border: 1px solid rgba(255,255,255,0.1);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: flex-end;
-            padding: 30px;
-            text-decoration: none;
-            color: white;
-            border-radius: 5px;
-        }
-        .cat-card:hover { border-color: var(--gold); }
-        .cat-card img {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover;
-            z-index: -1;
-            filter: grayscale(100%) brightness(0.5);
-            transition: 0.5s;
-        }
-        .cat-card:hover img { filter: grayscale(0%) brightness(0.7); transform: scale(1.1); }
 
-        /* --- КАТАЛОГ С АНИМАЦИЕЙ --- */
-        .catalog { padding: 100px 5%; }
-        .section-title { font-family: 'Playfair Display', serif; font-size: 40px; margin-bottom: 50px; text-align: center; }
+        /* --- СТРАНИЦЫ (VIEWS) --- */
+        .view { display: none; padding: 40px 5%; animation: fadeIn 0.4s ease; }
+        .view.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- КАТАЛОГ И ФИЛЬТРЫ --- */
+        .catalog-layout { display: grid; grid-template-columns: 250px 1fr; gap: 30px; }
+        .filters { background: #fff; padding: 20px; border-radius: 15px; height: fit-content; }
+        .filter-group { margin-bottom: 25px; }
+        .filter-group h4 { margin-bottom: 12px; font-size: 14px; text-transform: uppercase; color: var(--text-light); }
+        .filter-opt { display: block; margin-bottom: 8px; cursor: pointer; }
+
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px; }
+        .product-card { 
+            background: #fff; border-radius: 15px; padding: 15px; transition: 0.3s;
+            position: relative; border: 1px solid #f0f0f0; cursor: pointer;
+        }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .product-img { width: 100%; height: 220px; object-fit: cover; border-radius: 10px; margin-bottom: 15px; background: #f8f9fa; }
+        .product-tag { position: absolute; top: 25px; left: 25px; background: var(--primary); color: #fff; padding: 4px 10px; border-radius: 5px; font-size: 10px; }
+        .price { font-size: 1.2rem; font-weight: 700; color: var(--text); margin: 10px 0; }
+        .add-to-cart { 
+            width: 100%; padding: 10px; border: 1px solid var(--primary); color: var(--primary); 
+            background: transparent; border-radius: 8px; cursor: pointer; font-weight: 600;
+        }
+        .add-to-cart:hover { background: var(--primary); color: #fff; }
+
+        /* --- КОРЗИНА --- */
+        .cart-item { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px; border-radius: 10px; margin-bottom: 10px; }
         
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 40px;
-        }
-        .p-card {
-            background: #111;
-            border-bottom: 2px solid transparent;
-            transition: 0.4s;
-            position: relative;
-        }
-        .p-card:hover { border-bottom-color: var(--accent); transform: translateY(-10px); }
-        .p-img { width: 100%; height: 350px; object-fit: cover; background: #222; }
-        .p-info { padding: 20px; text-align: center; }
-        .p-price { color: var(--gold); font-weight: bold; margin-top: 10px; }
-
-        /* --- ПРИВАТНОСТЬ --- */
-        .discreet-mode .p-img, .discreet-mode .cat-card img { filter: blur(30px) !important; }
-
-        /* Адаптивность */
-        @media (max-width: 900px) {
-            .categories { grid-template-columns: repeat(2, 1fr); }
-            .hero h1 { font-size: 3rem; }
+        /* --- МОБИЛЬНАЯ АДАПТАЦИЯ --- */
+        @media (max-width: 768px) {
+            .catalog-layout { grid-template-columns: 1fr; }
+            .filters { display: none; } /* Скрываем фильтры на мобилках для чистоты */
+            .search-bar { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-glow"></div>
+<header>
+    <div class="logo-block" onclick="showView('home')">
+        <div class="logo-heart"></div>
+        <div class="logo-text">love.me</div>
+    </div>
+    
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Найти то самое..." onkeyup="handleSearch()">
+    </div>
 
-    <nav>
-        <a href="#" class="logo">LOVE MARKET</a>
-        <div class="nav-links">
-            <a href="#categories">Категории</a>
-            <a href="#catalog">Бестселлеры</a>
-            <a href="#" id="toggleBlur">🔐 Приватность</a>
+    <div class="nav-tools">
+        <button class="btn-catalog" onclick="showView('catalog')">☰ Каталог</button>
+        <div style="cursor:pointer; position:relative;" onclick="showView('cart')">
+            🛒 <span id="cartCount" style="background:var(--primary); color:white; border-radius:50%; padding:2px 6px; font-size:10px;">0</span>
         </div>
-    </nav>
+    </div>
+</header>
 
-    <section class="hero">
-        <h1>Твоя страсть — <br> наше искусство</h1>
-        <p style="letter-spacing: 5px; text-transform: uppercase; color: var(--gold);">Премиальный бутик для взрослых</p>
-        <br><br>
-        <a href="#catalog" class="btn" style="border: 1px solid var(--gold); color: var(--gold); padding: 15px 40px; text-decoration: none; border-radius: 50px;">Смотреть каталог</a>
+<main id="home" class="view active">
+    <section style="background: linear-gradient(135deg, #2b2b2b, #000); color:white; padding: 80px 40px; border-radius: 30px; text-align: center;">
+        <h1 style="font-size: 3.5rem; margin-bottom: 20px;">Новое измерение удовольствия</h1>
+        <p style="opacity: 0.8; margin-bottom: 30px;">Откройте коллекцию 2026 года</p>
+        <button class="btn-catalog" style="margin: 0 auto; padding: 15px 40px;" onclick="showView('catalog')">Перейти в магазин</button>
     </section>
+</main>
 
-    <section class="categories" id="categories">
-        <a href="#woman" class="cat-card">
-            <img src="https://images.unsplash.com/photo-1515377666659-b171939e4177?q=80&w=600" alt="Для неё">
-            <h3>ДЛЯ НЕЁ</h3>
-        </a>
-        <a href="#man" class="cat-card">
-            <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=600" alt="Для него">
-            <h3>ДЛЯ НЕГО</h3>
-        </a>
-        <a href="#couples" class="cat-card">
-            <img src="https://images.unsplash.com/photo-1518131345ef2-225307567086?q=80&w=600" alt="Для пар">
-            <h3>ДЛЯ ПАР</h3>
-        </a>
-        <a href="#cosmetics" class="cat-card">
-            <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=600" alt="Косметика">
-            <h3>УХОД</h3>
-        </a>
-    </section>
+<main id="catalog" class="view">
+    <div class="catalog-layout">
+        <aside class="filters">
+            <div class="filter-group">
+                <h4>Категории</h4>
+                <label class="filter-opt"><input type="radio" name="cat" onclick="filterCat('all')" checked> Все товары</label>
+                <label class="filter-opt"><input type="radio" name="cat" onclick="filterCat('toys')"> Игрушки</label>
+                <label class="filter-opt"><input type="radio" name="cat" onclick="filterCat('cosmetic')"> Косметика</label>
+                <label class="filter-opt"><input type="radio" name="cat" onclick="filterCat('sets')"> Наборы</label>
+            </div>
+            <div class="filter-group">
+                <h4>Цена</h4>
+                <input type="range" min="0" max="20000" style="width:100%">
+            </div>
+        </aside>
 
-    <section class="catalog" id="catalog">
-        <h2 class="section-title">Популярное сейчас</h2>
-        <div class="product-grid">
-            <div class="p-card">
-                <img src="https://images.unsplash.com/photo-1614859324967-bdf471bba774?q=80&w=400" class="p-img">
-                <div class="p-info">
-                    <h4>Ароматическая свеча "Noir"</h4>
-                    <p class="p-price">2 400 ₽</p>
+        <section>
+            <h2 id="catalogTitle" style="margin-bottom: 30px;">Все товары</h2>
+            <div class="product-grid" id="productGrid">
                 </div>
-            </div>
-            <div class="p-card">
-                <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=400" class="p-img">
-                <div class="p-info">
-                    <h4>Массажное масло Silk</h4>
-                    <p class="p-price">1 850 ₽</p>
-                </div>
-            </div>
-            <div class="p-card">
-                <img src="https://images.unsplash.com/photo-1583946099379-f9c9cb8bc030?q=80&w=400" class="p-img">
-                <div class="p-info">
-                    <h4>Набор аксессуаров Velvet</h4>
-                    <p class="p-price">5 900 ₽</p>
-                </div>
-            </div>
+        </section>
+    </div>
+</main>
+
+<main id="cart" class="view">
+    <h2>Ваша корзина</h2>
+    <div id="cartItems" style="margin-top: 30px;">
         </div>
-    </section>
+    <div id="cartTotal" style="margin-top: 20px; font-size: 24px; font-weight: 700; text-align: right;">
+        Итого: 0 ₽
+    </div>
+    <button class="btn-catalog" style="float:right; margin-top:20px;">Оформить заказ</button>
+</main>
 
-    <footer style="padding: 50px; text-align: center; border-top: 1px solid var(--glass);">
-        <p>© 2026 LOVE MARKET. Искусство быть собой.</p>
-    </footer>
+<script>
+    // БАЗА ДАННЫХ ТОВАРОВ
+    const products = [
+        { id: 1, name: "Vibe Pulse 2.0", price: 8500, cat: "toys", img: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500", tag: "Bestseller" },
+        { id: 2, name: "Silk Oil Luxury", price: 2200, cat: "cosmetic", img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500", tag: "New" },
+        { id: 3, name: "Premium Duo Set", price: 14900, cat: "sets", img: "https://images.unsplash.com/photo-1512438248408-282408b84ee3?w=500", tag: "Sale" },
+        { id: 4, name: "Aroma Candle Midnight", price: 1800, cat: "cosmetic", img: "https://images.unsplash.com/photo-1602874801007-bd458bb1b8b6?w=500", tag: "" },
+        { id: 5, name: "Neon Lube Gold", price: 1200, cat: "cosmetic", img: "https://images.unsplash.com/photo-1556228515-01fd1f004938?w=500", tag: "" },
+        { id: 6, name: "Touch Control Air", price: 12500, cat: "toys", img: "https://images.unsplash.com/photo-1583946099379-f9c9cb8bc030?w=500", tag: "Premium" },
+    ];
 
-    <script>
-        // Режим приватности
-        document.getElementById('toggleBlur').addEventListener('click', function(e) {
-            e.preventDefault();
-            document.body.classList.toggle('discreet-mode');
-            this.innerText = document.body.classList.contains('discreet-mode') ? '🔓 Показать' : '🔐 Приватность';
-        });
+    let cart = [];
 
-        // Плавное появление при скролле
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = 1;
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, { threshold: 0.1 });
+    // НАВИГАЦИЯ МЕЖДУ СТРАНИЦАМИ
+    function showView(viewId) {
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        document.getElementById(viewId).classList.add('active');
+        window.scrollTo(0,0);
+    }
 
-        document.querySelectorAll('.p-card, .cat-card').forEach(el => {
-            el.style.opacity = 0;
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = '1s';
-            observer.observe(el);
-        });
-    </script>
-</body>
-</html>
+    // РЕНДЕР КАТАЛОГА
+    function renderProducts(data) {
+        const grid = document.getElementById('productGrid');
+        grid.innerHTML = data.map(p => `
+            <div class="product-card">
+                ${p.tag ? `<div class="product-tag">${p.tag}</div>` : ''}
+                <img src="${p.img}" class="product-image product-img">
+                <h3>${p.name}</h3>
+                <p class="price">${p.price.toLocaleString()} ₽</p>
+                <button class="add-to-cart" onclick="addToCart(${p.id})">В корзину</button>
+            </div>
+        `).join('');
+    }
+
+    // ФИЛЬТРАЦИЯ
+    function filterCat(category) {
+        const filtered = category === 'all' ? products : products.filter(p => p.cat === category);
+        renderProducts(filtered);
+        document.getElementById('catalogTitle').innerText = category === 'all' ? 'Все товары' : 'Категория: ' + category;
+    }
+
+    // ПОИСК
+    function handleSearch() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+        renderProducts(filtered);
+        if(query) showView('catalog');
+    }
+
+    // КОРЗИНА
+    function addToCart(id) {
+        const item = products.find(p => p.id === id);
+        cart.push(item);
+        updateCartUI();
+    }
+
+    function updateCartUI() {
+        document.getElementById('cartCount').innerText = cart.length;
+        const cartItems = document.getElementById('cartItems');
+        cartItems.innerHTML = cart.map((item, index
