@@ -3,67 +3,246 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>love.me | Магазин нового поколения</title>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;700;800&display=swap" rel="stylesheet">
+    <title>LoveMarket | Премиум Бутик</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
+        /* --- ЦВЕТА И ПЕРЕМЕННЫЕ --- */
         :root {
-            --primary: #8b2cf5; 
-            --primary-soft: #f4ebff;
-            --dark: #121212;
-            --gray: #f5f5f7;
-            --text-main: #1d1d1f;
+            /* ЗАМЕНИТЕ ЭТИ ЦВЕТА НА ВАШИ ФИРМЕННЫЕ */
+            --primary: #E91E63; /* Основной фирменный цвет (например, розово-красный) */
+            --primary-glow: rgba(233, 30, 99, 0.5);
+            --bg-dark: #0a0a0c;
+            --bg-glass: rgba(255, 255, 255, 0.05);
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Manrope', sans-serif; }
-        body { background: #fff; color: var(--text-main); overflow-x: hidden; scroll-behavior: smooth; }
+        /* --- БАЗОВЫЕ НАСТРОЙКИ --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; }
 
-        /* HEADER & NAV */
+        /* --- ШАПКА (HEADER) --- */
         header {
-            position: fixed; top: 0; width: 100%; z-index: 1000;
-            background: rgba(255, 255, 255, 0.8); backdrop-filter: saturate(180%) blur(20px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            display: flex; justify-content: space-between; align-items: center; padding: 15px 5%;
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(10, 10, 12, 0.8);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
         }
-        .logo { display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; color: var(--text-main); }
-        .logo-icon { width: 32px; height: 32px; background: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
-        .logo-text { font-size: 22px; font-weight: 800; }
+        .logo { font-size: 24px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
+        .logo span { color: var(--primary); }
+        
+        nav { display: flex; gap: 30px; }
+        nav a { font-weight: 600; font-size: 14px; text-transform: uppercase; transition: 0.3s; }
+        nav a:hover { color: var(--primary); }
 
-        .nav-links { display: flex; gap: 30px; }
-        .nav-links a { text-decoration: none; color: var(--text-main); font-weight: 500; font-size: 14px; transition: 0.3s; }
-        .nav-links a:hover { color: var(--primary); }
+        .header-actions { display: flex; gap: 20px; align-items: center; }
+        .discreet-btn {
+            background: transparent;
+            border: 1px solid var(--text-main);
+            color: var(--text-main);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+        .discreet-btn:hover { background: var(--text-main); color: var(--bg-dark); }
+        .discreet-btn.active { border-color: var(--primary); color: var(--primary); }
 
-        .header-actions { display: flex; align-items: center; gap: 20px; }
-        .cart-btn { position: relative; cursor: pointer; background: var(--gray); padding: 10px 18px; border-radius: 50px; border: none; font-weight: 600; }
-        .cart-badge { position: absolute; top: -5px; right: -5px; background: var(--primary); color: white; width: 20px; height: 20px; border-radius: 50%; font-size: 11px; display: flex; align-items: center; justify-content: center; }
+        /* --- ГЛАВНЫЙ ЭКРАН (HERO) --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            position: relative;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%; right: 10%;
+            width: 400px; height: 400px;
+            background: var(--primary);
+            filter: blur(150px);
+            opacity: 0.3;
+            border-radius: 50%;
+            z-index: -1;
+        }
+        .hero-content { max-width: 600px; z-index: 2; }
+        .hero h1 { font-size: clamp(3rem, 5vw, 5rem); line-height: 1.1; margin-bottom: 20px; }
+        .hero p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 40px; }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            padding: 15px 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 30px;
+            box-shadow: 0 10px 20px var(--primary-glow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: inline-block;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px var(--primary-glow);
+        }
 
-        /* VIEWS CONTROL */
-        .view { display: none; padding-top: 80px; min-height: 100vh; animation: fadeIn 0.5s ease; }
-        .view.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* --- СЕТКА ТОВАРОВ (GLASSMORPHISM) --- */
+        .products-section { padding: 100px 5%; }
+        .section-title { font-size: 2.5rem; margin-bottom: 50px; text-align: center; }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .card {
+            background: var(--bg-glass);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.4s, border-color 0.4s;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .card:hover { transform: translateY(-10px); border-color: var(--primary); }
+        
+        .card-img {
+            width: 100%;
+            height: 300px;
+            background: #1a1a1f; /* Заглушка для фото */
+            border-radius: 15px;
+            margin-bottom: 20px;
+            transition: filter 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+        }
+        /* Безопасный режим */
+        body.discreet-mode .card-img { filter: blur(15px) grayscale(100%); }
+        
+        .card-title { font-size: 1.2rem; margin-bottom: 10px; }
+        .card-price { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
 
-        /* HERO SECTION (HOME) */
-        .hero { height: 90vh; display: flex; align-items: center; padding: 0 10%; background: var(--gray); position: relative; overflow: hidden; }
-        .hero-content { z-index: 2; max-width: 600px; }
-        .hero-content h1 { font-size: clamp(3rem, 6vw, 5rem); line-height: 1.1; margin-bottom: 25px; font-weight: 800; }
-        .hero-content p { font-size: 1.2rem; color: #6e6e73; margin-bottom: 40px; }
-        .btn-main { background: var(--primary); color: white; padding: 18px 45px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 18px; display: inline-block; transition: 0.3s; border: none; cursor: pointer; }
-        .btn-main:hover { transform: scale(1.05); box-shadow: 0 15px 30px rgba(139, 44, 245, 0.3); }
+        /* --- АДАПТИВНОСТЬ (MOBILE) --- */
+        @media (max-width: 768px) {
+            nav { display: none; /* Для мобильных нужен бургер-меню */ }
+            .hero { text-align: center; justify-content: center; }
+            .hero::before { right: 50%; transform: translateX(50%); width: 200px; height: 200px; }
+            .hero-content { display: flex; flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
 
-        .hero-img { position: absolute; right: -100px; top: 50%; transform: translateY(-50%); width: 50%; height: 80%; background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); border-radius: 40px; }
+    <!-- Шапка -->
+    <header>
+        <div class="logo">Love<span>Market</span></div>
+        <nav>
+            <a href="#">Каталог</a>
+            <a href="#">Новинки</a>
+            <a href="#">Бренды</a>
+            <a href="#">Sale</a>
+        </nav>
+        <div class="header-actions">
+            <!-- Та самая уникальная фишка -->
+            <button class="discreet-btn" id="discreetBtn">👁 Скрыть контент</button>
+            <a href="#" style="font-size: 20px;">🛒</a>
+        </div>
+    </header>
 
-        /* CATALOG LAYOUT */
-        .catalog-container { display: grid; grid-template-columns: 280px 1fr; gap: 40px; padding: 40px 5%; }
-        .sidebar { position: sticky; top: 120px; height: fit-content; }
-        .filter-box { background: var(--gray); padding: 25px; border-radius: 20px; }
-        .filter-box h3 { margin-bottom: 20px; font-size: 18px; }
-        .filter-item { display: block; margin-bottom: 12px; cursor: pointer; color: #444; }
+    <!-- Главный экран -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Искусство<br>наслаждения.</h1>
+            <p>Откройте для себя премиальную коллекцию товаров для тех, кто ценит эстетику, качество и новые грани чувственности.</p>
+            <a href="#" class="btn-primary">Смотреть коллекцию</a>
+        </div>
+    </section>
 
-        .search-wrapper { margin-bottom: 30px; }
-        .search-input { width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 12px; font-size: 16px; outline: none; }
-        .search-input:focus { border-color: var(--primary); }
+    <!-- Блок товаров -->
+    <section class="products-section">
+        <h2 class="section-title">Хиты продаж</h2>
+        <div class="grid">
+            <!-- Товар 1 -->
+            <div class="card">
+                <div class="card-img">[Фото товара 1]</div>
+                <div class="card-title">Элегантный девайс LELO</div>
+                <div class="card-price">12 490 ₽</div>
+            </div>
+            <!-- Товар 2 -->
+            <div class="card">
+                <div class="card-img">[Фото товара 2]</div>
+                <div class="card-title">Массажер Satisfyer Pro</div>
+                <div class="card-price">4 990 ₽</div>
+            </div>
+            <!-- Товар 3 -->
+            <div class="card">
+                <div class="card-img">[Фото товара 3]</div>
+                <div class="card-title">Набор для пар "Midnight"</div>
+                <div class="card-price">8 100 ₽</div>
+            </div>
+            <!-- Товар 4 -->
+            <div class="card">
+                <div class="card-img">[Фото товара 4]</div>
+                <div class="card-title">Массажная свеча Shunga</div>
+                <div class="card-price">2 300 ₽</div>
+            </div>
+        </div>
+    </section>
 
-        /* PRODUCT CARDS */
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
-        .card { background: #fff; border: 1px solid #f0f0f0; border-radius: 24px; padding: 20px; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
-        .card-img { width: 100%; height: 280px; object-fit: cover; border-radius: 18px; margin-bottom: 20px; background: #eee; }
+    <!-- Скрипты -->
+    <script>
+        // Логика "Безопасного режима" (Discreet Mode)
+        const discreetBtn = document.getElementById('discreetBtn');
+        const body = document.body;
+
+        discreetBtn.addEventListener('click', () => {
+            body.classList.toggle('discreet-mode');
+            
+            if (body.classList.contains('discreet-mode')) {
+                discreetBtn.classList.add('active');
+                discreetBtn.innerHTML = '🙈 Контент скрыт';
+            } else {
+                discreetBtn.classList.remove('active');
+                discreetBtn.innerHTML = '👁 Скрыть контент';
+            }
+        });
+
+        // Плавное появление элементов при скролле (Wow-эффект)
+        const cards = document.querySelectorAll('.card');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        cards.forEach((card, index) => {
+            card.style.opacity = 0;
+            card.style.transform = 'translateY(50px)';
+            card.style.transition = `all 0.6s ease ${index * 0.1}s`;
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
