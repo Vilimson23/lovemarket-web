@@ -3,78 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LoveMarket | Современный бутик</title>
+    <title>LoveMarket | Премиальный бутик ощущений</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     <style>
-        /* Базовые настройки и фирменные цвета */
         :root {
-            /* Замените эти цвета на фирменные цвета LoveMarket */
-            --brand-primary: #e63946; 
-            --brand-secondary: #f1faee;
-            --bg-dark: #121212;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --text-main: #ffffff;
-            --text-muted: #a0a0a0;
+            --accent: #8b0000; /* Глубокий бордовый LoveMarket */
+            --gold: #c5a059;
+            --bg: #0a0a0a;
+            --text: #ffffff;
+            --glass: rgba(255, 255, 255, 0.03);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            transition: all 0.3s ease;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Montserrat', sans-serif; 
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        /* Навигация (Glassmorphism) */
-        header {
+        /* --- ЭФФЕКТ ЖИДКОГО ФОНА --- */
+        .bg-glow {
             position: fixed;
-            top: 0;
-            width: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #2c0005 0%, #0a0a0a 100%);
+            z-index: -1;
+        }
+
+        /* --- НАВИГАЦИЯ --- */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 25px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 5%;
-            background: rgba(18, 18, 18, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--glass-border);
             z-index: 1000;
+            background: linear-gradient(to bottom, rgba(10,10,10,0.8), transparent);
+            backdrop-filter: blur(10px);
         }
+        .logo { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--gold); text-decoration: none; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 30px; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.7; }
+        .nav-links a:hover { opacity: 1; color: var(--gold); }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-            color: var(--brand-secondary);
-        }
-
-        .logo span {
-            color: var(--brand-primary);
-        }
-
-        /* Кнопка режима приватности */
-        .discreet-btn {
-            background: transparent;
-            border: 1px solid var(--text-muted);
-            color: var(--text-muted);
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .discreet-btn.active {
-            background: var(--text-muted);
-            color: var(--bg-dark);
-        }
-
-        /* Главный экран */
+        /* --- ГЛАВНЫЙ ЭКРАН (HERO) --- */
         .hero {
             height: 100vh;
             display: flex;
@@ -82,147 +55,160 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 0 20px;
-            background: radial-gradient(circle at center, #2a080c 0%, var(--bg-dark) 70%);
+            perspective: 1000px;
         }
-
         .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 10vw, 7rem);
+            line-height: 1;
             margin-bottom: 20px;
-            font-weight: 300;
+            background: linear-gradient(45deg, #fff, var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: reveal 1.5s ease-out;
         }
+        @keyframes reveal { from { opacity: 0; transform: translateY(50px) rotateX(-20deg); } to { opacity: 1; transform: translateY(0); } }
 
-        .hero p {
-            color: var(--text-muted);
-            font-size: clamp(1rem, 2vw, 1.2rem);
-            max-width: 600px;
-            margin-bottom: 40px;
-        }
-
-        .btn-primary {
-            background: var(--brand-primary);
-            color: white;
-            padding: 15px 40px;
-            border: none;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 10px 20px rgba(230, 57, 70, 0.2);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 25px rgba(230, 57, 70, 0.4);
-        }
-
-        /* Сетка товаров */
-        .products {
+        /* --- СЕКЦИЯ КАТЕГОРИЙ (ПЕРЕХОДЫ) --- */
+        .categories {
             padding: 100px 5%;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
         }
-
-        .product-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            backdrop-filter: blur(5px);
+        .cat-card {
+            height: 400px;
+            background: var(--glass);
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            padding: 30px;
+            text-decoration: none;
+            color: white;
+            border-radius: 5px;
         }
-
-        .product-image {
-            width: 100%;
-            height: 250px;
+        .cat-card:hover { border-color: var(--gold); }
+        .cat-card img {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
             object-fit: cover;
-            border-radius: 15px;
-            margin-bottom: 20px;
+            z-index: -1;
+            filter: grayscale(100%) brightness(0.5);
+            transition: 0.5s;
         }
+        .cat-card:hover img { filter: grayscale(0%) brightness(0.7); transform: scale(1.1); }
 
-        /* Класс для размытия изображений (Режим приватности) */
-        .blur-active .product-image {
-            filter: blur(15px) grayscale(100%);
+        /* --- КАТАЛОГ С АНИМАЦИЕЙ --- */
+        .catalog { padding: 100px 5%; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 40px; margin-bottom: 50px; text-align: center; }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 40px;
         }
-
-        .product-title {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
+        .p-card {
+            background: #111;
+            border-bottom: 2px solid transparent;
+            transition: 0.4s;
+            position: relative;
         }
+        .p-card:hover { border-bottom-color: var(--accent); transform: translateY(-10px); }
+        .p-img { width: 100%; height: 350px; object-fit: cover; background: #222; }
+        .p-info { padding: 20px; text-align: center; }
+        .p-price { color: var(--gold); font-weight: bold; margin-top: 10px; }
 
-        .product-price {
-            color: var(--brand-primary);
-            font-weight: bold;
-            font-size: 1.3rem;
-        }
+        /* --- ПРИВАТНОСТЬ --- */
+        .discreet-mode .p-img, .discreet-mode .cat-card img { filter: blur(30px) !important; }
 
-        /* Адаптивность для телефонов */
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                gap: 15px;
-                padding: 15px;
-            }
-            .hero {
-                justify-content: flex-end;
-                padding-bottom: 15vh;
-            }
+        /* Адаптивность */
+        @media (max-width: 900px) {
+            .categories { grid-template-columns: repeat(2, 1fr); }
+            .hero h1 { font-size: 3rem; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">Love<span>Market</span></div>
-        <button class="discreet-btn" id="discreetBtn">👁 Скрыть товары</button>
-    </header>
+    <div class="bg-glow"></div>
+
+    <nav>
+        <a href="#" class="logo">LOVE MARKET</a>
+        <div class="nav-links">
+            <a href="#categories">Категории</a>
+            <a href="#catalog">Бестселлеры</a>
+            <a href="#" id="toggleBlur">🔐 Приватность</a>
+        </div>
+    </nav>
 
     <section class="hero">
-        <h1>Эстетика чувств</h1>
-        <p>Современный подход к выбору деликатных товаров. Безопасно, анонимно и исключительно премиально.</p>
-        <button class="btn-primary">Смотреть каталог</button>
+        <h1>Твоя страсть — <br> наше искусство</h1>
+        <p style="letter-spacing: 5px; text-transform: uppercase; color: var(--gold);">Премиальный бутик для взрослых</p>
+        <br><br>
+        <a href="#catalog" class="btn" style="border: 1px solid var(--gold); color: var(--gold); padding: 15px 40px; text-decoration: none; border-radius: 50px;">Смотреть каталог</a>
     </section>
 
-    <section class="products">
-        <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1616080481039-4d6cbdb2b90b?auto=format&fit=crop&q=80&w=400" alt="Товар 1" class="product-image">
-            <h3 class="product-title">Название товара</h3>
-            <p class="product-price">3 500 ₽</p>
-        </div>
-        <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&q=80&w=400" alt="Товар 2" class="product-image">
-            <h3 class="product-title">Элегантный сет</h3>
-            <p class="product-price">5 200 ₽</p>
-        </div>
-        <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&q=80&w=400" alt="Товар 3" class="product-image">
-            <h3 class="product-title">Подарочный набор</h3>
-            <p class="product-price">8 900 ₽</p>
+    <section class="categories" id="categories">
+        <a href="#woman" class="cat-card">
+            <img src="https://images.unsplash.com/photo-1515377666659-b171939e4177?q=80&w=600" alt="Для неё">
+            <h3>ДЛЯ НЕЁ</h3>
+        </a>
+        <a href="#man" class="cat-card">
+            <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=600" alt="Для него">
+            <h3>ДЛЯ НЕГО</h3>
+        </a>
+        <a href="#couples" class="cat-card">
+            <img src="https://images.unsplash.com/photo-1518131345ef2-225307567086?q=80&w=600" alt="Для пар">
+            <h3>ДЛЯ ПАР</h3>
+        </a>
+        <a href="#cosmetics" class="cat-card">
+            <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=600" alt="Косметика">
+            <h3>УХОД</h3>
+        </a>
+    </section>
+
+    <section class="catalog" id="catalog">
+        <h2 class="section-title">Популярное сейчас</h2>
+        <div class="product-grid">
+            <div class="p-card">
+                <img src="https://images.unsplash.com/photo-1614859324967-bdf471bba774?q=80&w=400" class="p-img">
+                <div class="p-info">
+                    <h4>Ароматическая свеча "Noir"</h4>
+                    <p class="p-price">2 400 ₽</p>
+                </div>
+            </div>
+            <div class="p-card">
+                <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=400" class="p-img">
+                <div class="p-info">
+                    <h4>Массажное масло Silk</h4>
+                    <p class="p-price">1 850 ₽</p>
+                </div>
+            </div>
+            <div class="p-card">
+                <img src="https://images.unsplash.com/photo-1583946099379-f9c9cb8bc030?q=80&w=400" class="p-img">
+                <div class="p-info">
+                    <h4>Набор аксессуаров Velvet</h4>
+                    <p class="p-price">5 900 ₽</p>
+                </div>
+            </div>
         </div>
     </section>
+
+    <footer style="padding: 50px; text-align: center; border-top: 1px solid var(--glass);">
+        <p>© 2026 LOVE MARKET. Искусство быть собой.</p>
+    </footer>
 
     <script>
-        // Логика "Режима приватности"
-        const discreetBtn = document.getElementById('discreetBtn');
-        const body = document.body;
-
-        discreetBtn.addEventListener('click', () => {
-            body.classList.toggle('blur-active');
-            
-            if (body.classList.contains('blur-active')) {
-                discreetBtn.classList.add('active');
-                discreetBtn.innerHTML = '🙈 Товары скрыты';
-                document.title = 'Документы | Рабочий стол'; // Маскируем вкладку браузера
-            } else {
-                discreetBtn.classList.remove('active');
-                discreetBtn.innerHTML = '👁 Скрыть товары';
-                document.title = 'LoveMarket | Современный бутик';
-            }
+        // Режим приватности
+        document.getElementById('toggleBlur').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.body.classList.toggle('discreet-mode');
+            this.innerText = document.body.classList.contains('discreet-mode') ? '🔓 Показать' : '🔐 Приватность';
         });
 
-        // Простая анимация появления товаров при скролле
+        // Плавное появление при скролле
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -230,12 +216,13 @@
                     entry.target.style.transform = 'translateY(0)';
                 }
             });
-        });
+        }, { threshold: 0.1 });
 
-        document.querySelectorAll('.product-card').forEach(card => {
-            card.style.opacity = 0;
-            card.style.transform = 'translateY(50px)';
-            observer.observe(card);
+        document.querySelectorAll('.p-card, .cat-card').forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = '1s';
+            observer.observe(el);
         });
     </script>
 </body>
