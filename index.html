@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoveMarket | Современный бутик</title>
+    <style>
+        /* Базовые настройки и фирменные цвета */
+        :root {
+            /* Замените эти цвета на фирменные цвета LoveMarket */
+            --brand-primary: #e63946; 
+            --brand-secondary: #f1faee;
+            --bg-dark: #121212;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* Навигация (Glassmorphism) */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: rgba(18, 18, 18, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: var(--brand-secondary);
+        }
+
+        .logo span {
+            color: var(--brand-primary);
+        }
+
+        /* Кнопка режима приватности */
+        .discreet-btn {
+            background: transparent;
+            border: 1px solid var(--text-muted);
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .discreet-btn.active {
+            background: var(--text-muted);
+            color: var(--bg-dark);
+        }
+
+        /* Главный экран */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: radial-gradient(circle at center, #2a080c 0%, var(--bg-dark) 70%);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .btn-primary {
+            background: var(--brand-primary);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 20px rgba(230, 57, 70, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(230, 57, 70, 0.4);
+        }
+
+        /* Сетка товаров */
+        .products {
+            padding: 100px 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* Класс для размытия изображений (Режим приватности) */
+        .blur-active .product-image {
+            filter: blur(15px) grayscale(100%);
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            color: var(--brand-primary);
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        /* Адаптивность для телефонов */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            .hero {
+                justify-content: flex-end;
+                padding-bottom: 15vh;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Love<span>Market</span></div>
+        <button class="discreet-btn" id="discreetBtn">👁 Скрыть товары</button>
+    </header>
+
+    <section class="hero">
+        <h1>Эстетика чувств</h1>
+        <p>Современный подход к выбору деликатных товаров. Безопасно, анонимно и исключительно премиально.</p>
+        <button class="btn-primary">Смотреть каталог</button>
+    </section>
+
+    <section class="products">
+        <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1616080481039-4d6cbdb2b90b?auto=format&fit=crop&q=80&w=400" alt="Товар 1" class="product-image">
+            <h3 class="product-title">Название товара</h3>
+            <p class="product-price">3 500 ₽</p>
+        </div>
+        <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&q=80&w=400" alt="Товар 2" class="product-image">
+            <h3 class="product-title">Элегантный сет</h3>
+            <p class="product-price">5 200 ₽</p>
+        </div>
+        <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&q=80&w=400" alt="Товар 3" class="product-image">
+            <h3 class="product-title">Подарочный набор</h3>
+            <p class="product-price">8 900 ₽</p>
+        </div>
+    </section>
+
+    <script>
+        // Логика "Режима приватности"
+        const discreetBtn = document.getElementById('discreetBtn');
+        const body = document.body;
+
+        discreetBtn.addEventListener('click', () => {
+            body.classList.toggle('blur-active');
+            
+            if (body.classList.contains('blur-active')) {
+                discreetBtn.classList.add('active');
+                discreetBtn.innerHTML = '🙈 Товары скрыты';
+                document.title = 'Документы | Рабочий стол'; // Маскируем вкладку браузера
+            } else {
+                discreetBtn.classList.remove('active');
+                discreetBtn.innerHTML = '👁 Скрыть товары';
+                document.title = 'LoveMarket | Современный бутик';
+            }
+        });
+
+        // Простая анимация появления товаров при скролле
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.style.opacity = 0;
+            card.style.transform = 'translateY(50px)';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
